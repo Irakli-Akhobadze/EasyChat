@@ -14,6 +14,6 @@
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </bottom>
    <top>
-      <Label text="EasyChat" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+      <Label fx:id="title" text="EasyChat" textAlignment="CENTER" BorderPane.alignment="CENTER" />
    </top>
 </BorderPane>
