@@ -13,7 +13,7 @@
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="button" mnemonicParsing="false" text="Button" />
+            <Button fx:id="button" styleClass="add-button" mnemonicParsing="false" text="📎" />
          </children></HBox>
    </bottom>
    <top>
