@@ -4,10 +4,11 @@
 }
 
 .add-button {
+	-fx-min-width: 40px;
+	-fx-min-height: 40px;
+	-fx-max-width: 40px;
+	-fx-max-height: 40px;
     -fx-background-color: black;
-    -fx-text-fill: white;
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
 
     -fx-background-radius: 50%;
     -fx-border-radius: 50%;
@@ -21,21 +22,94 @@
     -fx-alignment: CENTER;
     -fx-cursor: hand;
 
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 8, 0.3, 0, 2);
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0, 0, 0, 0.35),
+        8,
+        0.3,
+        0,
+        2
+    );
+
+
 }
 
 .add-button:hover {
     -fx-background-color: #222222;
-    -fx-text-fill: white;
 
-    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.8), 18, 0.5, 0, 0);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 
-    -fx-scale-x: 1.12;
-    -fx-scale-y: 1.12;
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(255,255,255,0.75),
+        15,
+        0.4,
+        0,
+        0
+    );
 }
 
 .add-button:pressed {
-    -fx-background-color: #444444;
     -fx-scale-x: 0.95;
     -fx-scale-y: 0.95;
+}
+
+.tooltip {
+    -fx-background-color: #181818;
+    -fx-text-fill: white;
+    -fx-font-family: "Bangers";
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-padding: 7px 11px;
+    -fx-background-radius: 7px;
+    -fx-border-radius: 7px;
+
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0, 0, 0, 0.5),
+        10,
+        0.35,
+        0,
+        3
+    );
+}
+
+.bottom-bar {
+    -fx-padding: 0 0 15px 20px;
+}
+
+.message-field {
+    -fx-background-color: #f2f2f2;
+    -fx-background-radius: 20px;
+    -fx-border-color: #d0d0d0;
+    -fx-border-radius: 20px;
+    -fx-border-width: 1px;
+    -fx-padding: 9px 15px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: #222222;
+    -fx-prompt-text-fill: #888888;
+}
+
+.message-field:focused {
+    -fx-background-color: white;
+    -fx-border-color: #333333;
+    -fx-border-width: 1.5px;
+}
+
+.chat-scroll-pane {
+    -fx-background-color: white;
+    -fx-background: white;
+    -fx-border-color: transparent;
+}
+
+.chat-scroll-pane > .viewport {
+    -fx-background-color: white;
+}
+
+.chat-box {
+    -fx-padding: 15px;
+    -fx-background-color: white;
 }

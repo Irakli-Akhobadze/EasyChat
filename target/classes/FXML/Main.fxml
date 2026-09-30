@@ -2,21 +2,47 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.fxmlController">
-   <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-   </center>
-   <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+<BorderPane prefHeight="400" prefWidth="600" stylesheets="@../Styles/styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.fxmlController">
+
+    <top>
+        <Label fx:id="title" styleClass="chat-title" text="EasyChat" BorderPane.alignment="CENTER" />
+    </top>
+
+    <center>
+        <VBox BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="button" styleClass="add-button" mnemonicParsing="false" text="📎" />
-         </children></HBox>
-   </bottom>
-   <top>
-      <Label fx:id="title" styleClass="chat-title" text="EasyChat" textAlignment="CENTER" BorderPane.alignment="CENTER" />
-   </top>
+            <ScrollPane fx:id="scrollPane" styleClass="scroll-pane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="200.0" prefWidth="200.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
+         </children></VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="bottom-bar" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="button" mnemonicParsing="false" styleClass="add-button">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                            <image>
+                                <Image url="@../Images/paper-clip-attach.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            <TextField fx:id="messageField" promptText="Message" styleClass="message-field" />
+            </children>
+        </HBox>
+    </bottom>
+
 </BorderPane>
