@@ -22,11 +22,18 @@ public class fxmlController {
 	private ScrollPane scrollPane;
 	
 	@FXML
+	private Button sendButton;
+	
+	@FXML
 	public void initialize() {
 		Font.loadFont(getClass().getResourceAsStream("/Fonts/Bangers.ttf"), 30);
 		Tooltip tooltip = new Tooltip("Attach");
+		Tooltip tooltipSend = new Tooltip("Send");
 	    tooltip.setShowDelay(javafx.util.Duration.millis(100));
 	    tooltip.setShowDuration(javafx.util.Duration.seconds(5));
+	    tooltipSend.setShowDelay(javafx.util.Duration.millis(100));
+	    tooltipSend.setShowDuration(javafx.util.Duration.seconds(5));
 	    button.setTooltip(tooltip);
+	    sendButton.setTooltip(tooltipSend);
 	}
 }
