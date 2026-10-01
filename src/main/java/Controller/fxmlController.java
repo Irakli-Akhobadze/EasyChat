@@ -35,5 +35,13 @@ public class fxmlController {
 	    tooltipSend.setShowDuration(javafx.util.Duration.seconds(5));
 	    button.setTooltip(tooltip);
 	    sendButton.setTooltip(tooltipSend);
+	    
+	    messageField.textProperty().addListener((observable, oldValue, newValue) -> {
+	        sendButton.setVisible(!newValue.trim().isEmpty());
+	    });
 	}
+	
+	
+	
+	
 }

@@ -41,7 +41,7 @@
                     </graphic>
                 </Button>
             <TextField fx:id="messageField" promptText="Message" styleClass="message-field" />
-            	<Button fx:id="sendButton" mnemonicParsing="false" styleClass="send-button">
+            	<Button fx:id="sendButton" visible="false" mnemonicParsing="false" styleClass="send-button">
                     <graphic>
                         <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
                             <image>
