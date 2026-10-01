@@ -20,7 +20,7 @@
     <center>
         <VBox BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="scrollPane" styleClass="scroll-pane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" styleClass="scroll-pane">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
               </content>
@@ -41,6 +41,7 @@
                     </graphic>
                 </Button>
             <TextField fx:id="messageField" promptText="Message" styleClass="message-field" />
+            <Button mnemonicParsing="false" text="Button" />
             </children>
         </HBox>
     </bottom>
