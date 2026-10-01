@@ -31,7 +31,7 @@
     <bottom>
         <HBox alignment="CENTER_LEFT" spacing="20" styleClass="bottom-bar" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="button" mnemonicParsing="false" styleClass="add-button">
+                <Button fx:id="button" onAction="#attachFiles" mnemonicParsing="false" styleClass="add-button">
                     <graphic>
                         <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
                             <image>

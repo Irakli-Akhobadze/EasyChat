@@ -1,4 +1,6 @@
 package Controller;
+import java.io.File;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -6,6 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 
 public class fxmlController {
 	
@@ -39,6 +42,19 @@ public class fxmlController {
 	    messageField.textProperty().addListener((observable, oldValue, newValue) -> {
 	        sendButton.setVisible(!newValue.trim().isEmpty());
 	    });
+	}
+	
+	@FXML
+	public void attachFiles() {
+		FileChooser fileChooser = new FileChooser();
+		
+		fileChooser.setTitle("Choose a file");
+		
+		File selectedFile = fileChooser.showOpenDialog(button.getScene().getWindow());
+		
+		if (selectedFile != null) {
+	        System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+	    }
 	}
 	
 	
