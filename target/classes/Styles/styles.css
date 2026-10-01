@@ -131,23 +131,29 @@
 }
 
 .message-field {
-    -fx-background-color: #f2f2f2;
-    -fx-background-radius: 20px;
-    -fx-border-color: #d0d0d0;
-    -fx-border-radius: 20px;
+    -fx-background-color: white;
+    -fx-border-color: #999999;
     -fx-border-width: 1px;
-    -fx-padding: 9px 15px;
-    -fx-font-family: "Arial";
-    -fx-font-size: 14px;
-    -fx-text-fill: #222222;
-    -fx-prompt-text-fill: #888888;
+    -fx-border-radius: 18px;
+    -fx-background-radius: 18px;
+    -fx-padding: 5px 10px;
 }
 
-.message-field:focused {
+.message-field .content {
     -fx-background-color: white;
-    -fx-border-color: #333333;
-    -fx-border-width: 1.5px;
+    -fx-background-radius: 18px;
+    -fx-padding: 5px 10px;
 }
+
+.message-field .scroll-pane {
+    -fx-hbar-policy: NEVER;
+    -fx-vbar-policy: NEVER;
+}
+
+.message-field .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
 
 .chat-scroll-pane {
     -fx-background-color: white;

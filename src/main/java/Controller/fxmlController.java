@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.text.Font;
@@ -19,7 +20,7 @@ public class fxmlController {
 	private Button button;
 	
 	@FXML
-	private TextField messageField;
+	private TextArea messageField;
 	
 	@FXML
 	private ScrollPane scrollPane;
@@ -39,8 +40,14 @@ public class fxmlController {
 	    button.setTooltip(tooltip);
 	    sendButton.setTooltip(tooltipSend);
 	    
-	    messageField.textProperty().addListener((observable, oldValue, newValue) -> {
-	        sendButton.setVisible(!newValue.trim().isEmpty());
+	    messageField.textProperty().addListener((obs, oldText, newText) -> {
+	        int lines = newText.split("\n", -1).length;
+	        double height = 35 + (lines - 1) * 20;
+	        height = Math.min(height, 120);
+	        messageField.setPrefHeight(height);
+	        boolean hasText = !newText.trim().isEmpty();
+	        sendButton.setVisible(hasText);
+	        sendButton.setManaged(hasText);
 	    });
 	}
 	
@@ -53,7 +60,7 @@ public class fxmlController {
 		File selectedFile = fileChooser.showOpenDialog(button.getScene().getWindow());
 		
 		if (selectedFile != null) {
-	        System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+	        messageField.setText(selectedFile.getName());
 	    }
 	}
 	
