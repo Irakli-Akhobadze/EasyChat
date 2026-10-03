@@ -18,15 +18,24 @@
     </top>
 
     <center>
-        <VBox BorderPane.alignment="CENTER">
-         <children>
-            <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" styleClass="scroll-pane">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-              </content>
+    <VBox BorderPane.alignment="CENTER">
+        <children>
+
+            <ScrollPane fx:id="scrollPane"
+                        fitToWidth="true"
+                        styleClass="scroll-pane">
+
+                <content>
+                    <VBox fx:id="chatBox"
+                          spacing="10"
+                          styleClass="chat-box" />
+                </content>
+
             </ScrollPane>
-         </children></VBox>
-    </center>
+
+        </children>
+    </VBox>
+</center>
 
     <bottom>
         <HBox alignment="CENTER_LEFT" spacing="20" styleClass="bottom-bar" BorderPane.alignment="CENTER">
@@ -41,7 +50,7 @@
                     </graphic>
                 </Button>
             		<TextArea fx:id="messageField" promptText="Message" wrapText="true" prefRowCount="1" prefHeight="35.0" prefWidth="300" minHeight="35.0" maxHeight="100.0" styleClass="message-field" />
-            	<Button fx:id="sendButton" visible="false" mnemonicParsing="false" styleClass="send-button">
+            	<Button fx:id="sendButton" onAction="#sendMessage" visible="false" mnemonicParsing="false" managed="false" styleClass="send-button">
                     <graphic>
                         <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
                             <image>

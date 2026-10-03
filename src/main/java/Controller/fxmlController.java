@@ -1,16 +1,14 @@
 package Controller;
-import java.io.File;
 
+import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-
 public class fxmlController {
 	
 	@FXML
@@ -27,6 +25,13 @@ public class fxmlController {
 	
 	@FXML
 	private Button sendButton;
+	
+	
+	@FXML
+	public void sendMessage() {
+
+	    
+	}
 	
 	@FXML
 	public void initialize() {
@@ -63,6 +68,7 @@ public class fxmlController {
 	        messageField.setText(selectedFile.getName());
 	    }
 	}
+
 	
 	
 	
