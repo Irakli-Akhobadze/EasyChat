@@ -167,3 +167,76 @@
     -fx-padding: 15px;
     -fx-background-color: white;
 }
+
+.connected-box {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 3px;
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+}
+
+/* Text inside ComboBox */
+.connected-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-padding: 8px 10px;
+}
+
+/* Arrow section */
+.connected-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0 10px;
+}
+
+/* Black arrow */
+.connected-box .arrow {
+    -fx-background-color: black;
+}
+
+/* Hover */
+.connected-box:hover {
+    -fx-border-color: black;
+    -fx-background-color: #f5f5f5;
+}
+
+/* Focus */
+.connected-box:focused {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-background-color: white;
+}
+
+/* Dropdown */
+.combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 3px;
+}
+
+/* Dropdown items */
+.combo-box-popup .list-cell {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-padding: 9px 10px;
+}
+
+/* Dropdown hover */
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #eeeeee;
+    -fx-text-fill: black;
+}
+
+/* Selected dropdown item */
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #dddddd;
+    -fx-text-fill: black;
+}
