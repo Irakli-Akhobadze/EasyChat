@@ -10,13 +10,23 @@ public class SocketWrapper implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final String name;
+
     private final transient Socket socket;
+
     private final transient ObjectOutputStream outputStream;
 
     public SocketWrapper(String n, Socket s) throws IOException {
+
         this.name = n;
+
         this.socket = s;
-        this.outputStream = new ObjectOutputStream(s.getOutputStream());
+
+        this.outputStream =
+                new ObjectOutputStream(
+                        s.getOutputStream()
+                );
+
+        this.outputStream.flush();
     }
 
     public String getName() {
@@ -33,6 +43,6 @@ public class SocketWrapper implements Serializable {
 
     @Override
     public String toString() {
-        return "name: " + name;
+        return name;
     }
 }
