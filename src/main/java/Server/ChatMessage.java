@@ -1,6 +1,8 @@
 package Server;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatMessage implements Serializable {
 
@@ -10,10 +12,19 @@ public class ChatMessage implements Serializable {
     private String receiver;
     private String message;
 
-    public ChatMessage(String sender, String receiver, String message) {
+    private List<AttachedFile> files;
+
+    public ChatMessage(
+            String sender,
+            String receiver,
+            String message,
+            List<AttachedFile> files) {
+
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
+
+        this.files = new ArrayList<>(files);
     }
 
     public String getSender() {
@@ -26,5 +37,9 @@ public class ChatMessage implements Serializable {
 
     public String getMessage() {
         return message;
+    }
+
+    public List<AttachedFile> getFiles() {
+        return files;
     }
 }

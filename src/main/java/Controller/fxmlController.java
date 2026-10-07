@@ -9,8 +9,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
+import Server.AttachedFile;
 import Server.ChatMessage;
 import Server.ChatServer;
 import Server.SocketWrapper;
@@ -59,32 +61,69 @@ public class fxmlController {
 	private ObjectInputStream oI;
 	private ObjectOutputStream oO;
 	
+	private List<File> selectedFiles = new ArrayList<>();
+	private static final long MAX_FILE_SIZE = 20 * 1024 * 1024;
+	
 	private void sendMessage(String message) {
 
 	    SocketWrapper selected = userBox.getValue();
 
-	    if (selected == null || message.trim().isEmpty()) {
+	    if (selected == null) {
+	        return;
+	    }
+
+	    // Remove attachment names from the text
+	    String actualMessage = message;
+
+	    for (File file : selectedFiles) {
+
+	        actualMessage =
+	                actualMessage.replaceFirst(
+	                        java.util.regex.Pattern.quote(file.getName()),
+	                        ""
+	                );
+	    }
+
+	    actualMessage = actualMessage.trim();
+
+	    if (actualMessage.isEmpty() && selectedFiles.isEmpty()) {
 	        return;
 	    }
 
 	    try {
 
-	        ChatMessage chatMessage = new ChatMessage(
-	                "Connected User",
-	                selected.getName(),
-	                message
-	        );
+	        List<AttachedFile> attachments =
+	                new ArrayList<>();
+
+	        for (File file : selectedFiles) {
+
+	            byte[] data =
+	                    java.nio.file.Files.readAllBytes(
+	                            file.toPath()
+	                    );
+
+	            attachments.add(
+	                    new AttachedFile(
+	                            file.getName(),
+	                            data
+	                    )
+	            );
+	        }
+
+	        ChatMessage chatMessage =
+	                new ChatMessage(
+	                        "Connected User",
+	                        selected.getName(),
+	                        actualMessage,
+	                        attachments
+	                );
 
 	        oO.writeObject(chatMessage);
 	        oO.flush();
 
-	        // Display my message immediately
-	        displayMessage(
-	                "Connected User",
-	                message,
-	                true
-	        );
+	        displayMessage("Connected User", actualMessage, true, attachments);
 
+	        selectedFiles.clear();
 	        messageField.clear();
 
 	    } catch (IOException e) {
@@ -101,13 +140,14 @@ public class fxmlController {
 	private void displayMessage(
 	        String username,
 	        String message,
-	        boolean myMessage) {
+	        boolean myMessage,
+	        List<AttachedFile> files) {
 
-	    // -------------------------
-	    // USER IMAGE
-	    // -------------------------
-
-	    Image image = new Image(getClass().getResourceAsStream("/Images/userLogo.png"));
+	    Image image = new Image(
+	            getClass().getResourceAsStream(
+	                    "/Images/userLogo.png"
+	            )
+	    );
 
 	    ImageView avatar = new ImageView(image);
 
@@ -115,14 +155,8 @@ public class fxmlController {
 	    avatar.setFitHeight(40);
 	    avatar.setPreserveRatio(true);
 
-	    // Make avatar circular
 	    Circle clip = new Circle(20, 20, 20);
 	    avatar.setClip(clip);
-
-
-	    // -------------------------
-	    // USERNAME
-	    // -------------------------
 
 	    Label name = new Label(username);
 
@@ -130,35 +164,78 @@ public class fxmlController {
 	            "-fx-font-weight: bold;"
 	    );
 
-
-	    // -------------------------
-	    // MESSAGE
-	    // -------------------------
-
-	    Label text = new Label(message);
-
-	    text.setWrapText(true);
-	    text.setMaxWidth(350);
-
-	    text.setStyle(
-	            "-fx-background-color: #eeeeee;" +
-	            "-fx-background-radius: 15;" +
-	            "-fx-padding: 8 12 8 12;"
-	    );
-
-
-	    // -------------------------
-	    // NAME + MESSAGE
-	    // -------------------------
-
 	    VBox messageInfo = new VBox(3);
-	    messageInfo.getChildren().addAll(name, text);
-	    
-	    // avatar + message
+
+	    messageInfo.getChildren().add(name);
+
+	    // MESSAGE TEXT
+	    if (!message.trim().isEmpty()) {
+
+	        Label text = new Label(message);
+
+	        text.setWrapText(true);
+	        text.setMaxWidth(350);
+
+	        text.setStyle(
+	                "-fx-background-color: #eeeeee;" +
+	                "-fx-background-radius: 15;" +
+	                "-fx-padding: 8 12 8 12;"
+	        );
+
+	        messageInfo.getChildren().add(text);
+	    }
+
+	    // FILES
+	    for (AttachedFile file : files) {
+
+	        Label fileLabel =
+	                new Label("📎 " + file.getFileName());
+
+	        fileLabel.setStyle(
+	                "-fx-background-color: #dddddd;" +
+	                "-fx-background-radius: 10;" +
+	                "-fx-padding: 8 12 8 12;" +
+	                "-fx-cursor: hand;"
+	        );
+
+	        fileLabel.setOnMouseClicked(e -> {
+
+	            FileChooser chooser = new FileChooser();
+
+	            chooser.setTitle("Save file");
+
+	            chooser.setInitialFileName(
+	                    file.getFileName()
+	            );
+
+	            File saveLocation =
+	                    chooser.showSaveDialog(
+	                            chatBox.getScene().getWindow()
+	                    );
+
+	            if (saveLocation != null) {
+
+	                try {
+
+	                    java.nio.file.Files.write(
+	                            saveLocation.toPath(),
+	                            file.getData()
+	                    );
+
+	                } catch (IOException ex) {
+
+	                    ex.printStackTrace();
+	                }
+	            }
+	        });
+
+	        messageInfo.getChildren().add(fileLabel);
+	    }
 
 	    HBox messageBox = new HBox(10);
 
 	    messageBox.setAlignment(Pos.TOP_LEFT);
+
 	    messageBox.getChildren().addAll(
 	            avatar,
 	            messageInfo
@@ -168,10 +245,8 @@ public class fxmlController {
 	        messageBox.setAlignment(Pos.TOP_RIGHT);
 	    }
 
-	    // Add to chat
 	    chatBox.getChildren().add(messageBox);
 
-	    // Scroll to bottom
 	    scrollPane.setVvalue(1.0);
 	}
 	
@@ -188,11 +263,19 @@ public class fxmlController {
 	    sendButton.setTooltip(tooltipSend);
 	    
 	    messageField.textProperty().addListener((obs, oldText, newText) -> {
+
 	        int lines = newText.split("\n", -1).length;
+
 	        double height = 35 + (lines - 1) * 20;
+
 	        height = Math.min(height, 120);
+
 	        messageField.setPrefHeight(height);
-	        boolean hasText = !newText.trim().isEmpty();
+
+	        boolean hasText =
+	                !newText.trim().isEmpty()
+	                || !selectedFiles.isEmpty();
+
 	        sendButton.setVisible(hasText);
 	        sendButton.setManaged(hasText);
 	    });
@@ -204,19 +287,82 @@ public class fxmlController {
 	
 	@FXML
 	public void attachFiles() {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Choose a file");
-		File selectedFile = fileChooser.showOpenDialog(button.getScene().getWindow());
-		
-		if (selectedFile != null) {
-	        messageField.setText(selectedFile.getName());
+
+	    FileChooser fileChooser = new FileChooser();
+
+	    fileChooser.setTitle("Choose files");
+
+	    List<File> files =
+	            fileChooser.showOpenMultipleDialog(
+	                    button.getScene().getWindow()
+	            );
+
+	    if (files == null || files.isEmpty()) {
+	        return;
 	    }
+
+	    long currentSize = 0;
+
+	    // Size of files already selected
+	    for (File file : selectedFiles) {
+	        currentSize += file.length();
+	    }
+
+	    // Check newly selected files
+	    for (File file : files) {
+
+	        long newSize = currentSize + file.length();
+
+	        if (newSize > MAX_FILE_SIZE) {
+
+	            javafx.scene.control.Alert alert =
+	                    new javafx.scene.control.Alert(
+	                            javafx.scene.control.Alert.AlertType.WARNING
+	                    );
+
+	            alert.setTitle("File size limit");
+	            alert.setHeaderText("20 MB limit exceeded");
+
+	            alert.setContentText(
+	                    "The total size of attached files cannot be more than 20 MB."
+	            );
+
+	            alert.showAndWait();
+
+	            return;
+	        }
+
+	        selectedFiles.add(file);
+
+	        currentSize = newSize;
+	    }
+
+	    updateMessageField();
+	}
+	
+	private void updateMessageField() {
+
+	    StringBuilder text = new StringBuilder();
+
+	    // Show attached files
+	    for (File file : selectedFiles) {
+
+	        text.append(file.getName());
+	        text.append("\n");
+	    }
+
+	    messageField.setText(text.toString());
+
+	    // Put cursor after the file names
+	    messageField.positionCaret(
+	            messageField.getText().length()
+	    );
 	}
 	
 	private void connectToServer() {
 
 	    try {
-	        socket = new Socket("localhost", 3073);
+	        socket = new Socket("localhost", 3079);
 
 	        oO = new ObjectOutputStream(socket.getOutputStream());
 	        oO.flush();
@@ -260,11 +406,7 @@ public class fxmlController {
 
 	                    javafx.application.Platform.runLater(() -> {
 
-	                        displayMessage(
-	                                message.getSender(),
-	                                message.getMessage(),
-	                                false
-	                        );
+	                        displayMessage(message.getSender(), message.getMessage(), false,message.getFiles());
 
 	                    });
 	                }

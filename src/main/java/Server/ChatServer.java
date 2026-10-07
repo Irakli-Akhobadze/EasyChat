@@ -16,7 +16,7 @@ public class ChatServer {
 
     public static void main(String[] args) {
 
-        int port = 3073;
+        int port = 3079;
 
         try (ServerSocket serverS = new ServerSocket(port)) {
 
